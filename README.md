@@ -1,6 +1,7 @@
-# Private AI - Finance
+# Federated & Encrypted Deep Learning for Credit Approval Classification
+## Private AI - Finance
 
-## Project Description
+### Project Description
 This project is an experiment in differential privacy and federated learning as privacy preserving techniques for deep learning. Privacy has recently been at the forefront of news cycles (with Facebook and other tech giants specifically under scrutiny). 
 
 The idea behind encrypted deep learning is simple: preserve people's privacy while aligorithms enabling machine learning models to be developed on this data.
