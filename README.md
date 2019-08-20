@@ -10,11 +10,12 @@ The *project goal* is to show encrypted deep learning in a realistic use case - 
 
 It would be an improvement over the current system if a user was able to encrypt their databefore passing it into a model that either approves or rejects the individuals application for a new line of credit. This would also serve to simplify the data protection measures currently necessary for companies providing credit related services. Credit providers could make their encrypted models public, or license them to other firms without fearing a breach of intellectual property.The firms licensing the model would be able to use it without knowing the parameters of said model.
 
+#### Layout
+I have put together a series of Jupyter Notebooks that show how I have worked through first federated learning and later encrypted deep learning and put those together into a model that can hand credit scores in an encryted and federated manner. This is accompanied by notebooks explaining [Differential Privacy](https://htmlpreview.github.io/?https://github.com/mkucz95/private_ai_finance/blob/master/differential-privacy.html) and [Secure Multi-Party Computation (SMPC)](https://htmlpreview.github.io/?https://github.com/mkucz95/private_ai_finance/blob/master/secure_multi_party_computation.html), both for those who are unfamiliar with the subject but also for myself since I learn best by explaining to others.
+
+The second party of the project is code that can be run from the command line and uses websockets on a variety of locally-hosted servers to mimic a real-world federated learning setup.
+
 ## Data
 I am using a publically available data set for the purpose of this example. The data set contains 15 anonymixed features (for privacy protection) and a binary label. I have created fake names and features to illustrate how privacy protection would work in reality. The current anonymization of the dataset is unlikely to have fully preserved privacy. Without practicing proper differential privacy, it is widely know that most 'anonymized' datasets can be reverse engineered, or at the very least that not all anonymity is preserved. 
 
-#TODO: Add info about the features I made up
-
 The data comes courtesy of [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Credit+Approval).   
-
-
