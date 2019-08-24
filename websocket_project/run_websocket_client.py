@@ -65,7 +65,7 @@ async def fit_model_on_worker(
     )
     train_config.send(worker)
     logger.info("Training round %s, calling fit on worker: %s", r, worker.id)
-    loss = await worker.async_fit(dataset_key="mnist", return_ids=[0])
+    loss = await worker.async_fit(dataset_key="credit", return_ids=[0])
     logger.info("Training round: %s, worker: %s, avg_loss: %s", r, worker.id, loss.mean())
     model = train_config.model_ptr.get().obj
     return worker.id, model, loss

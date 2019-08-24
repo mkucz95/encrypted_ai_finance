@@ -7,60 +7,54 @@ from torchvision import datasets
 from torchvision import transforms
 import numpy as np
 from syft.frameworks.torch.federated import utils
+from config import n_workers
 
-KEEP_LABELS_DICT = {
-    "alice": [0, 1, 2, 3],
-    "bob": [4, 5, 6],
-    "charlie": [7, 8, 9],
-    "testing": list(range(10)),
-}
 
-def start_websocket_server_worker(id, host, port, hook, verbose, keep_labels=None, training=True):
-    """Helper function for spinning up a websocket server and setting up the local datasets."""
+def get_dataset(worker_number):
+    """
+    return dataset
+    
+    iterate through global data based on number of workers,
+    each worker (incl. testing worker) to have same number of datum
+    """
+    
+    assert(worker_number<= n_workers,
+           f"Only {n_workers} workers available, and 1 testing worker")
+    
+    features = np.load('data/features.npy')
+    labels = np.load('data/labels_dim.npy')
+
+    dataset = sy.BaseDataset(data=data[worker_number::n_workers],
+                             targets=target[worker_number::n_workers],
+                             transforms=transforms.Compose(
+                                [transforms.ToTensor(),
+                                 transforms.Normalize(mean=[0.], std=[1.])]
+        ))  
+
+
+
+def start_websocket_server_worker(worker_id, host, port, hook,
+                                  verbose, keep_labels=None, training=True):
+    """Helper function for spinning up a websocket server
+    and setting up the local datasets."""
 
     #new remoter server worker
-    server = WebsocketServerWorker(id=id, host=host,
+    server = WebsocketServerWorker(id=worker_id, host=host,
                                    port=port, hook=hook,
                                    verbose=verbose)
-
-    # Setup toy data (mnist example)
-    mnist_dataset = datasets.MNIST(
-        root="./data",
-        train=training,
-        download=True,
-        transform=transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-        ),
-    )
-
     if training:
-        indices = np.isin(mnist_dataset.targets, keep_labels).astype("uint8")
-        logger.info("number of true indices: %s", indices.sum())
-        selected_data = (
-            torch.native_masked_select(mnist_dataset.data.transpose(0, 2), torch.tensor(indices))
-            .view(28, 28, -1)
-            .transpose(2, 0)
-        )
-        logger.info("after selection: %s", selected_data.shape)
-        selected_targets = torch.native_masked_select(mnist_dataset.targets, torch.tensor(indices))
-
-        dataset = sy.BaseDataset(
-            data=selected_data, targets=selected_targets, transform=mnist_dataset.transform
-        )
-        key = "mnist"
+        #get training data
+        dataset = get_dataset(int(worker_id[-1]))
+        key = "credit"
     else:
-        dataset = sy.BaseDataset(
-            data=mnist_dataset.data,
-            targets=mnist_dataset.targets,
-            transform=mnist_dataset.transform,
-        )
-        key = "mnist_testing"
+        dataset = get_dataset(n_workers)
+        key = "credit_testing"
 
     server.add_dataset(dataset, key=key)
 
     logger.info("datasets: %s", server.datasets)
     if training:
-        logger.info("len(datasets[mnist]): %s", len(server.datasets["mnist"]))
+        logger.info("len(datasets[credit]): %s", len(server.datasets["credit"]))
 
     server.start()
     return server
