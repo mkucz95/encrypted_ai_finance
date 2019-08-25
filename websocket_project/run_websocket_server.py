@@ -7,36 +7,35 @@ from torchvision import datasets
 from torchvision import transforms
 import numpy as np
 from syft.frameworks.torch.federated import utils
-from config import n_workers
+from init import n_workers
 
-
-def get_dataset(worker_number):
+def get_dataset(worker_number:int):
     """
-    return dataset
+    returns dataset for specific worker
     
     iterate through global data based on number of workers,
     each worker (incl. testing worker) to have same number of datum
     """
     
-    assert(worker_number<= n_workers,
-           f"Only {n_workers} workers available, and 1 testing worker")
+    if worker_number > n_workers:
+        raise ValueError(f"Only {n_workers} workers available, and 1 testing worker")
     
-    features = np.load('data/features.npy')
-    labels = np.load('data/labels_dim.npy')
+    features = np.load('../data/features.npy')
+    labels = np.load('../data/labels_dim.npy')
 
-    dataset = sy.BaseDataset(data=data[worker_number::n_workers],
-                             targets=target[worker_number::n_workers],
-                             transforms=transforms.Compose(
-                                [transforms.ToTensor(),
-                                 transforms.Normalize(mean=[0.], std=[1.])]
-        ))  
+    dataset = sy.BaseDataset(data=features[worker_number::n_workers],
+                             targets=labels[worker_number::n_workers])
+    
+    return dataset
 
 
-
-def start_websocket_server_worker(worker_id, host, port, hook,
-                                  verbose, keep_labels=None, training=True):
-    """Helper function for spinning up a websocket server
-    and setting up the local datasets."""
+def start_websocket_server_worker(worker_id:str, host:str, port:str,
+                                  hook:sy.TorchHook, verbose:bool,
+                                  training=True):
+    """
+    Helper function for spinning up a websocket server
+    and setting up the local datasets.
+    """
 
     #new remoter server worker
     server = WebsocketServerWorker(id=worker_id, host=host,
@@ -96,11 +95,10 @@ if __name__ == "__main__":
     # Hook and start server
     hook = sy.TorchHook(torch)
     server = start_websocket_server_worker(
-        id=args.id,
+        worker_id=args.id,
         host=args.host,
         port=args.port,
         hook=hook,
         verbose=args.verbose,
-        keep_labels=KEEP_LABELS_DICT[args.id],
         training=not args.testing,
     )

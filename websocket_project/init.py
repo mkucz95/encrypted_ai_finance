@@ -1,10 +1,14 @@
+import argparse
+import sys
+import torch.nn.functional as F
+
 n_workers=3
 base_port=8777
 
 class Arguments():
     def __init__(self, in_size, out_size, hidden_layers,
                        activation=F.softmax, dim=-1):
-        self.batch_size = 1
+        self.batch_size = 5
         self.drop_p = None
         self.epochs = 10
         self.lr = 0.001
@@ -14,6 +18,8 @@ class Arguments():
         self.precision_fractional=3
         self.activation = activation
         self.dim = dim
+
+model_args = Arguments(42, 2, [30,15,5])
         
 def define_and_get_arguments(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(
@@ -21,13 +27,13 @@ def define_and_get_arguments(args=sys.argv[1:]):
     )
     parser.add_argument("--batch_size", type=int, default=32, help="batch size of the training")
     parser.add_argument(
-        "--test_batch_size", type=int, default=128, help="batch size used for the test data"
+        "--test_batch_size", type=int, default=5, help="batch size used for the test data"
     )
     parser.add_argument(
         "--training_rounds", type=int, default=40, help="number of federated learning rounds"
     )
     parser.add_argument(
-        "--federate_after_n_batches", type = int, default = 10,
+        "--federate_after_n_batches", type=int, default=10,
         help = "number of training steps performed on each remote worker before averaging",
     )
     parser.add_argument("--lr", type=float, default=0.1, help="learning rate")

@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings('ignore')
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -6,8 +9,8 @@ import argparse
 import sys
 import asyncio
 import numpy as np
-
-from config import define_and_get_arguments, n_workers, base_port
+from init import (define_and_get_arguments, 
+                  n_workers, base_port, model_args)
 
 FORMAT = "%(asctime)s %(message)s"
 logging.basicConfig(format=FORMAT)
@@ -56,12 +59,12 @@ async def fit_model_on_worker(
     train_config = sy.TrainConfig(
         model=traced_model,
         loss_fn=loss_fn,
-        batch_size=batch_size,
+        batch_size=model_args.batch_size,
         shuffle=True,
         max_nr_batches=max_nr_batches,
         epochs=1,
         optimizer="SGD",
-        optimizer_args={"lr": lr},
+        optimizer_args={"lr": model_args.lr},
     )
     train_config.send(worker)
     logger.info("Training round %s, calling fit on worker: %s", r, worker.id)
@@ -122,20 +125,22 @@ async def main():
     torch.manual_seed(args.seed)
     hook = sy.TorchHook(torch)
     kwargs_websocket = {"hook": hook, "verbose": args.verbose, "host": "0.0.0.0"}
-    model = Model().to(device) #use cuda if available
+    model = Model(model_args).to(device) #use cuda if available
 
     # CLIENT WORKER SETUP
     #workers on the client that interact with remote workers
     client_workers = []
     for i in range(n_workers):
-        client_workers.append(workers.WebsocketClientWorker(id=f"w_{i}", port=base_port+i, **kwargs_websocket)
+        client_workers.append(workers.WebsocketClientWorker(
+            id=f"w_{i}", port=base_port+i, **kwargs_websocket))
     
     #local client to test the models of each client as well as of aggregated model
     testing = workers.WebsocketClientWorker(id="testing", port=base_port+i, **kwargs_websocket)
 
     #serialize the model using jit to then send to remote server workers
     #model, example_input
-    traced_model = torch.jit.trace(model, torch.zeros([1, 42], dtype=torch.float))
+    #traced_model = torch.jit.trace(model, torch.zeros(1,42, dtype=torch.float))
+    traced_model = torch.jit.trace(model, torch.zeros(5, 42, dtype=torch.float))
 
     # train model on `args.batch_size` batches on each remote worker.
     # after x training batches aggregate model
@@ -150,7 +155,7 @@ async def main():
                 fit_model_on_worker(worker=worker,traced_model=traced_model,
                     batch_size=args.batch_size, curr_round=r,
                     max_nr_batches=args.federate_after_n_batches,lr=args.lr)
-                for worker in worker_instances
+                for worker in client_workers
             ]
         )
         models = {}

@@ -23,9 +23,11 @@ This code uses an experimental setup called `TrainConfig` developed by OpenMined
 
 Each worker can be represented by two parts:
 1. the remote *websocket server worker* which holds the data and performs computations
-2. The part that lives on the `scheduler` - a proxy local to the scheduler called the *websocket client worker* 
+2. The part that lives on the `scheduler` - a proxy local to the scheduler called the *websocket client worker*
 
-## Use
+To understand how some of the training and testing processes get carried out in parallel, it is useful to be acquainted with [TorchScript, a PyTorch implementation of JIT tracing and scripting](https://pytorch.org/docs/stable/jit.html#mixing-tracing-and-scripting) where python code is compiled into machine-executable code (and then potentially back into python) for performance and multi-processing reasons.
 
-1. run `python start_websocket_server.py` this creates (by default) three remote workers. This then also allocates the each remote worker's dataset, which in reality would already be contained on each respective worker.
-2. 
+## How to Use
+
+1. run `python start_websocket_server.py` this creates (by default) three remote workers. This then also allocates the each remote worker's dataset, which in reality would already be contained on each respective worker. This works by calling `python run_websocket_server.py  *args` for each desired remote server worker.
+2. run `python run_websocket_client.py` to run the training by instantiating a model, creating a test set on a `testing worker` and then performing federated learning with model averaging.
