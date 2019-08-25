@@ -18,13 +18,18 @@ def get_dataset(worker_number:int):
     """
     
     if worker_number > n_workers:
-        raise ValueError(f"Only {n_workers} workers available, and 1 testing worker")
+        raise ValueError(f"Only {n_workers} workers available, +1 for testing")
     
     features = np.load('../data/features.npy')
-    labels = np.load('../data/labels_dim.npy')
+    #labels = np.load('../data/labels_dim.npy')
+    labels = np.load('../data/labels.npy')
 
-    dataset = sy.BaseDataset(data=features[worker_number::n_workers],
-                             targets=labels[worker_number::n_workers])
+    _data = torch.tensor(features, dtype=torch.float32, requires_grad=True)
+    _target = torch.tensor(labels, dtype=torch.int64, requires_grad=False)\
+                                                            .reshape(-1,1)
+
+    dataset = sy.BaseDataset(data=_data[worker_number::n_workers],
+                             targets=_target[worker_number::n_workers])
     
     return dataset
 
@@ -74,19 +79,15 @@ if __name__ == "__main__":
         type=int,
         help="port number of the websocket server worker, e.g. --port 8777",
     )
-    parser.add_argument("--host", type=str, default="localhost", help="host for the connection")
-    parser.add_argument(
-        "--id", type=str, help="name (id) of the websocket server worker, e.g. --id alice"
+    parser.add_argument("--host", type=str, default="localhost",
+            help="host for the connection")
+    parser.add_argument("--id", type=str,
+            help="name (id) of the websocket server worker, e.g. --id alice"
     )
-    parser.add_argument(
-        "--testing",
-        action="store_true",
-        help="if set, websocket server worker will load the test dataset instead of the training dataset",
+    parser.add_argument("--testing",action="store_true",
+        help="if set, websocket server worker will load the test dataset",
     )
-    parser.add_argument(
-        "--verbose",
-        "-v",
-        action="store_true",
+    parser.add_argument("--verbose","-v", action="store_true",
         help="if set, websocket server worker will be started in verbose mode",
     )
 

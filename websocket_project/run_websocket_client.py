@@ -29,7 +29,7 @@ LOG_INTERVAL = 25
 #read about this here: https://pytorch.org/docs/stable/jit.html#mixing-tracing-and-scripting
 @torch.jit.script
 def loss_fn(pred, target):
-    return F.nll_loss(input=pred, target=target)
+    return F.nll_loss(input=pred.reshape(1,-1), target=target[0])
 
 async def fit_model_on_worker(
     worker: workers.WebsocketClientWorker,
@@ -139,8 +139,7 @@ async def main():
 
     #serialize the model using jit to then send to remote server workers
     #model, example_input
-    #traced_model = torch.jit.trace(model, torch.zeros(1,42, dtype=torch.float))
-    traced_model = torch.jit.trace(model, torch.zeros(5, 42, dtype=torch.float))
+    traced_model = torch.jit.trace(model, torch.zeros(1, 42, dtype=torch.float32))
 
     # train model on `args.batch_size` batches on each remote worker.
     # after x training batches aggregate model
