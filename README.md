@@ -1,4 +1,4 @@
-# Private and Encrypted AI - Credit Approval Application
+# Credit Approval Application - Private & Encrypted AI
 ## Federated & Encrypted Deep Learning
 
 ### Project Description
@@ -10,7 +10,7 @@ The *project goal* is to show encrypted deep learning in a realistic use case - 
 
 It would be an improvement over the current system if a user was able to encrypt their databefore passing it into a model that either approves or rejects the individuals application for a new line of credit. This would also serve to simplify the data protection measures currently necessary for companies providing credit related services. Credit providers could make their encrypted models public, or license them to other firms without fearing a breach of intellectual property.The firms licensing the model would be able to use it without knowing the parameters of said model.
 
-Privacy preservation in machine learning is built upon [Differential Privacy](https://htmlpreview.github.io/?https://github.com/mkucz95/private_ai_finance/blob/master/differential-privacy.html), and the  cryptography techniques used in this project includes [Secure Multi-Party Computation (SMPC)](https://htmlpreview.github.io/?https://github.com/mkucz95/private_ai_finance/blob/master/notebooks/secure_multi_party_computation.html).
+Privacy preservation in machine learning is built upon [Differential Privacy](https://htmlpreview.github.io/?https://github.com/mkucz95/private_ai_finance/blob/master/notebooks/differential-privacy.html), and the  cryptography techniques used in this project includes [Secure Multi-Party Computation (SMPC)](https://htmlpreview.github.io/?https://github.com/mkucz95/private_ai_finance/blob/master/notebooks/secure_multi_party_computation.html).
 
 _Note_ <br>This project was inspired by lectures of [Andrew Trask](https://iamtrask.github.io/) in the [Private AI Scholarship Challenge on Udacity](https://www.udacity.com/facebook-AI-scholarship). Furthermore, segments of the code are inspired by the [PySyft tutorials on GitHub](https://github.com/OpenMined/PySyft/tree/dev/examples/tutorials); an excellent resource for people starting off with Private AI. 
 
