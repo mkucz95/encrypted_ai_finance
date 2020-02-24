@@ -3,7 +3,7 @@ astor==0.8.0
 attrs==19.1.0
 autopep8==1.4.4
 backcall==0.1.0
-bleach==3.1.0
+bleach==3.1.1
 Click==7.0
 cycler==0.10.0
 decorator==4.4.0
@@ -102,7 +102,7 @@ astor==0.8.0
 attrs==19.1.0
 autopep8==1.4.4
 backcall==0.1.0
-bleach==3.1.0
+bleach==3.1.1
 Click==7.0
 cycler==0.10.0
 decorator==4.4.0
@@ -201,7 +201,7 @@ astor==0.8.0
 attrs==19.1.0
 autopep8==1.4.4
 backcall==0.1.0
-bleach==3.1.0
+bleach==3.1.1
 Click==7.0
 cycler==0.10.0
 decorator==4.4.0
