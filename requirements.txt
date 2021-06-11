@@ -92,7 +92,7 @@ traitlets==4.3.2
 wcwidth==0.1.7
 webencodings==0.5.1
 websocket-client==0.56.0
-websockets==8.0.2
+websockets==9.1
 Werkzeug==0.15.5
 widgetsnbextension==3.5.1
 wrapt==1.11.2
@@ -191,7 +191,7 @@ traitlets==4.3.2
 wcwidth==0.1.7
 webencodings==0.5.1
 websocket-client==0.56.0
-websockets==8.0.2
+websockets==9.1
 Werkzeug==0.15.5
 widgetsnbextension==3.5.1
 wrapt==1.11.2
@@ -289,7 +289,7 @@ traitlets==4.3.2
 wcwidth==0.1.7
 webencodings==0.5.1
 websocket-client==0.56.0
-websockets==8.0.2
+websockets==9.1
 Werkzeug==0.15.5
 widgetsnbextension==3.5.1
 wrapt==1.11.2
