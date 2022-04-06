@@ -46,7 +46,7 @@ msgpack==0.6.1
 names==0.3.0
 nbconvert==5.5.0
 nbformat==4.4.0
-notebook==6.0.0
+notebook==6.4.10
 numpy==1.17.0
 pandas==0.25.0
 pandocfilters==1.4.2
@@ -145,7 +145,7 @@ msgpack==0.6.1
 names==0.3.0
 nbconvert==5.5.0
 nbformat==4.4.0
-notebook==6.0.0
+notebook==6.4.10
 numpy==1.17.0
 pandas==0.25.0
 pandocfilters==1.4.2
@@ -244,7 +244,7 @@ msgpack==0.6.1
 names==0.3.0
 nbconvert==5.5.0
 nbformat==4.4.0
-notebook==6.0.0
+notebook==6.4.10
 numpy==1.17.0
 pandas==0.25.0
 pandocfilters==1.4.2
