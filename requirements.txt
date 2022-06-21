@@ -47,7 +47,7 @@ names==0.3.0
 nbconvert==5.5.0
 nbformat==4.4.0
 notebook==6.0.0
-numpy==1.17.0
+numpy==1.22.0
 pandas==0.25.0
 pandocfilters==1.4.2
 parso==0.5.1
@@ -146,7 +146,7 @@ names==0.3.0
 nbconvert==5.5.0
 nbformat==4.4.0
 notebook==6.0.0
-numpy==1.17.0
+numpy==1.22.0
 pandas==0.25.0
 pandocfilters==1.4.2
 parso==0.5.1
@@ -245,7 +245,7 @@ names==0.3.0
 nbconvert==5.5.0
 nbformat==4.4.0
 notebook==6.0.0
-numpy==1.17.0
+numpy==1.22.0
 pandas==0.25.0
 pandocfilters==1.4.2
 parso==0.5.1
