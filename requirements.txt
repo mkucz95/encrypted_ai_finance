@@ -57,7 +57,7 @@ Pillow==6.1.0
 pkg-resources==0.0.0
 prometheus-client==0.7.1
 prompt-toolkit==2.0.9
-protobuf==3.9.1
+protobuf==3.18.3
 ptyprocess==0.6.0
 pycodestyle==2.5.0
 Pygments==2.4.2
@@ -156,7 +156,7 @@ Pillow==6.1.0
 pkg-resources==0.0.0
 prometheus-client==0.7.1
 prompt-toolkit==2.0.9
-protobuf==3.9.1
+protobuf==3.18.3
 ptyprocess==0.6.0
 pycodestyle==2.5.0
 Pygments==2.4.2
@@ -255,7 +255,7 @@ Pillow==6.1.0
 pkg-resources==0.0.0
 prometheus-client==0.7.1
 prompt-toolkit==2.0.9
-protobuf==3.9.1
+protobuf==3.18.3
 ptyprocess==0.6.0
 pycodestyle==2.5.0
 Pygments==2.4.2
